@@ -22,7 +22,7 @@ class AdminController extends Controller
         ]);
 
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->route('dashboard');
+            return redirect()->route('admin.dashboard');
         }else{
             Session::flash('error-message','Invalid Email or Password');
             return back();
@@ -37,10 +37,8 @@ class AdminController extends Controller
 
     public function update(Request $request){
 
-        // dd($request->id);
 
         $user= BdModel::find($request->id);
-
         $user->update([
             'create_date'=>$request->create_date,
             'email_sent_date'=>$request->email_sent_date,
@@ -68,19 +66,24 @@ class AdminController extends Controller
             'employee_count'=>$request->employee_count,
         ]);
 
-        return redirect()->route('dashboard')->with('message', 'User Update Successfully.');
+        return redirect()->route('dashboard')->with('message', 'User Logged out Successfully.');
+
+    }
+
+    public function delete(Request $request){
 
 
-
+        $user=BdModel::find($request->id);
+        $user->delete();
+        return redirect()->route('dashboard')->with('message', 'User Deleted Successfully.');
 
 
     }
 
 
-    //todo: admin logout functionality
     public function logout(){
         Auth::guard('admin')->logout();
-        return redirect()->route('login.form');
+        return redirect()->route('admin.login')->with('message', 'User Deleted Successfully.');
     }
     public function edit(Request $request){
         $user=BdModel::find($request->id);

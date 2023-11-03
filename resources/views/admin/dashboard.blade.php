@@ -29,7 +29,11 @@
         </div>
 </div>
 
-
+@if(session('message'))
+    <div class="alert alert-success">
+        {{ session('message') }}
+    </div>
+@endif
 
 <div class="container">
     <h5>BD Users Data</h5>
@@ -62,8 +66,6 @@
 
 
  
-
-
 <script>
     $(document).ready(function() {
         $('#datatable').DataTable({
