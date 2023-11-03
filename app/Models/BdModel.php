@@ -9,7 +9,7 @@ class BdModel extends Model
 {
     use HasFactory;
 
-    protected $table='bd_data_models';
+    protected $table='bd';
 
     protected $fillable = [
         'create_date',

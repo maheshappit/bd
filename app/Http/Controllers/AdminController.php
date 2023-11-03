@@ -66,7 +66,7 @@ class AdminController extends Controller
             'employee_count'=>$request->employee_count,
         ]);
 
-        return redirect()->route('dashboard')->with('message', 'User Logged out Successfully.');
+        return redirect()->route('admin.dashboard')->with('message', 'User Updated Successfully.');
 
     }
 

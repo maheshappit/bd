@@ -11,6 +11,7 @@ Route::get('/', function () {
 Route::get('admin/login',[AdminController::class,'login_form'])->name('admin.login');
 Route::post('login-functionality',[AdminController::class,'login_functionality'])->name('login.functionality');
 
+
 Route::group(['middleware'=>'admin'],function(){
     Route::get('logout',[AdminController::class,'logout'])->name('admin.logout');
     Route::get('admin/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
@@ -24,6 +25,11 @@ Route::group(['middleware'=>'admin'],function(){
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/user/edit', [App\Http\Controllers\HomeController::class, 'edit'])->name('user.edit');
+
+
+Route::any('/user/update', [App\Http\Controllers\HomeController::class, 'update'])->name('user.update');
 
 // Route::view('/upload', 'upload-form'); // Display the form
 Route::any('upload',[CsvController::class,'upload'])->name('upload');

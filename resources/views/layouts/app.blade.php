@@ -21,6 +21,12 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <style>
+        thead,td input {
+        width: 100%;
+    }
+    </style>
 </head>
 <body>
     <div id="app">
