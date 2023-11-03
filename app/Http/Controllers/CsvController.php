@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Validator;
 
 use Illuminate\Http\Request;
 use App\Models\BdModel;
@@ -8,16 +9,25 @@ use App\Models\BdModel;
 use League\Csv\Reader;
 
 
+
+
 class CsvController extends Controller
 {
 
     public function upload(Request $request)
     {
-        $request->validate([
-            'file' => 'required|mimes:csv,txt|max:2048', // You can adjust the file size limit
+
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|mimes:csv,txt|max:2048', 
         ]);
-    
-        $file = $request->file('file');
+
+        if ($validator->fails()) {
+            return redirect('home')
+                        ->withErrors($validator)
+                        ->withInput();
+        }else{
+
+            $file = $request->file('file');
         $path = $file->getRealPath();
     
         $csv = Reader::createFromPath($path, 'r');
@@ -94,6 +104,10 @@ class CsvController extends Controller
         }
     
         return redirect()->route('home')->with('success', 'CSV file uploaded and processed successfully.');
+
+        }
+    
+        
     }
     
 }

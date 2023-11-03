@@ -37,7 +37,6 @@ class HomeController extends Controller
 
     public function update(Request $request){
 
-
         $user= BdModel::find($request->id);
         $user->update([
             'create_date'=>$request->create_date,

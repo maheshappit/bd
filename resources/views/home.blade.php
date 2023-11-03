@@ -14,7 +14,7 @@
 
                     <form action="{{ route('upload') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="file" name="file" accept=".csv">
+                        <input type="file" name="file" accept=".csv" class=" @error('file') is-invalid @enderror">
                         <button class="btn btn-primary" type="submit">Upload</button>
                     </form>
                     @if(session('success'))
