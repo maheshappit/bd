@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+<head>
+    <style>
+        .hidden-pdf-button {
+            display: none !important;
+        }
+    </style>
+</head>
 
 @section('content')
 <div class="container">
@@ -7,8 +14,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
-
-
 
                 <div class="card-body">
 
@@ -27,18 +32,18 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
 
-@if(session('message'))
+    @if(session('message'))
     <div class="alert alert-success">
         {{ session('message') }}
     </div>
-@endif
+    @endif
 
 
 
 
-<div class="container">
+    <div class="container">
         <h5>BD Users Data</h5>
         <table id="datatable" class="table table-striped table-bordered">
             <thead>
@@ -61,48 +66,50 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Designation</th>
+                    <th>Email</th>
                     <th>Email Response 1</th>
                     <th>Email Response 2</th>
                     <th>Rating</th>
                     <th>FollowUp</th>
                     <th>LinkedIn Link</th>
                     <th>Employee Count</th>
-                    <th>Action<th>
+                    <th>Action
+                    <th>
 
-                    <!-- Add more columns as needed -->
+                        <!-- Add more columns as needed -->
                 </tr>
             </thead>
             <tbody>
                 @foreach ($users_data as $item)
                 <tr>
-                <td>{{ $item->id }}</td>
-            <td>{{ $item->create_date }}</td>
-            <td>{{ $item->email_sent_date }}</td>
-            <td>{{ $item->company_source }}</td>
-            <td>{{ $item->contact_source }}</td>
-            <td>{{ $item->database_creator_name }}</td>
-            <td>{{ $item->technology }}</td>
-            <td>{{ $item->client_speciality }}</td>
-            <td>{{ $item->client_name }}</td>
-            <td>{{ $item->street }}</td>
-            <td>{{ $item->city }}</td>
-            <td>{{ $item->state }}</td>
-            <td>{{ $item->zip_code }}</td>
-            <td>{{ $item->country }}</td>
-            <td>{{ $item->website }}</td>
-            <td>{{ $item->first_name }}</td>
-            <td>{{ $item->last_name }}</td>
-            <td>{{ $item->designation }}</td>
-            <td>{{ $item->email }}</td>
-            <td>{{ $item->email_response_1 }}</td>
-            <td>{{ $item->email_response_2 }}</td>
-            <td>{{ $item->rating }}</td>
-            <td>{{ $item->followup }}</td>
-            <td>{{ $item->linkedin_link }}</td>
-            <td>{{ $item->employee_count }}</td>
+                    <td>{{ $item->id }}</td>
+                    <td>{{ $item->create_date }}</td>
+                    <td>{{ $item->email_sent_date }}</td>
+                    <td>{{ $item->company_source }}</td>
+                    <td>{{ $item->contact_source }}</td>
+                    <td>{{ $item->database_creator_name }}</td>
+                    <td>{{ $item->technology }}</td>
+                    <td>{{ $item->client_speciality }}</td>
+                    <td>{{ $item->client_name }}</td>
+                    <td>{{ $item->street }}</td>
+                    <td>{{ $item->city }}</td>
+                    <td>{{ $item->state }}</td>
+                    <td>{{ $item->zip_code }}</td>
+                    <td>{{ $item->country }}</td>
+                    <td>{{ $item->website }}</td>
+                    <td>{{ $item->first_name }}</td>
+                    <td>{{ $item->last_name }}</td>
+                    <td>{{ $item->designation }}</td>
+                    <td>{{ $item->email }}</td>
+                    <td>{{ $item->email_response_1 }}</td>
+                    <td>{{ $item->email_response_2 }}</td>
+                    <td>{{ $item->rating }}</td>
+                    <td>{{ $item->followup }}</td>
+                    <td>{{ $item->linkedin_link }}</td>
+                    <td>{{ $item->employee_count }}</td>
                     <td>
-                        <a href="{{ route('user.edit', ['id' => $item->id]) }}" class="btn btn-primary">Edit</a>
-                    </td> <!-- Add more columns as needed -->
+                        <button href="{{ route('user.edit', ['id' => $item->id]) }}" class="btn btn-primary">Edit</button>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -112,82 +119,190 @@
 
 
 
- 
+
+    <!-- // this code is written with filter search -->
+    <!-- <script>
+        $(document).ready(function() {
+
+
+            $('#datatable thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#datatable thead');
+
+            var table = $('#datatable').DataTable({
+
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel',
+                ],
+
+                orderCellsTop: true,
+                fixedHeader: true,
+                // table.buttons().destroy();
+
+                initComplete: function () {
+                    var api = this.api();
+
+                    // For each column
+                    api
+                        .columns()
+                        .eq(0)
+                        .each(function (colIdx) {
+                            // Set the header cell to contain the input element
+                            var cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            var title = $(cell).text();
+                            $(cell).html('<input type="text" placeholder="' + title + '" />');
+
+                            // On every keypress in this input
+                            $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                                .off('keyup change')
+                                .on('change', function (e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    var regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                    var cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value != ''
+                                                ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                                : '',
+                                            this.value != '',
+                                            this.value == ''
+                                        )
+                                        // table.buttons().destroy();
+
+                                        .draw();
+
+                                })
+                                .on('keyup', function (e) {
+                                    e.stopPropagation();
+
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        });
+                },
+            });
+        });
+    </script> -->
 
     <script>
+        $(document).ready(function() {
+            var myTable; // Declare a variable to store the DataTable object
 
-$(document).ready(function () {
-    // Setup - add a text input to each footer cell
+            myTable = $('#datatable').DataTable({
+                dom: 'lBfrtip',
+                buttons: ['copy', 'csv', 'excel', 'pdf'],
+                columns: [{
+                        data: 'column1'
+                    },
+                    {
+                        data: 'column2'
+                    },
+                    {
+                        data: 'column3'
+                    },
+                    {
+                        data: 'column4'
+                    },
+                    {
+                        data: 'column5'
+                    },
+                    {
+                        data: 'column6'
+                    },
+                    {
+                        data: 'column7'
+                    },
+                    {
+                        data: 'column8'
+                    },
+                    {
+                        data: 'column9'
+                    },
+                    {
+                        data: 'column10'
+                    },
+                    {
+                        data: 'column11'
+                    },
+                    {
+                        data: 'column12'
+                    },
+                    {
+                        data: 'column13'
+                    },
+                    {
+                        data: 'column14'
+                    },
+                    {
+                        data: 'column15'
+                    },
+                    {
+                        data: 'column16'
+                    },
+                    {
+                        data: 'column17'
+                    },
+                    {
+                        data: 'column18'
+                    },
+                    {
+                        data: 'column19'
+                    },
+                    {
+                        data: 'column20'
+                    },
+                    {
+                        data: 'column21'
+                    },
+                    {
+                        data: 'column22'
+                    },
+                    {
+                        data: 'column23'
+                    },
+                    {
+                        data: 'column24'
+                    },
+                    {
+                        data: 'column25'
+                    },
+                    {
+                        data: 'column26'
+                    },
+                ]
+            });
 
-    
-    $('#datatable thead tr')
-        .clone(true)
-        .addClass('filters')
-        .appendTo('#datatable thead');
- 
-    var table = $('#datatable').DataTable({
+            myTable.buttons().disable();
 
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel',
-        ],
 
-        orderCellsTop: true,
-        fixedHeader: true,
-        initComplete: function () {
-            var api = this.api();
- 
-            // For each column
-            api
-                .columns()
-                .eq(0)
-                .each(function (colIdx) {
-                    // Set the header cell to contain the input element
-                    var cell = $('.filters th').eq(
-                        $(api.column(colIdx).header()).index()
-                    );
-                    var title = $(cell).text();
-                    $(cell).html('<input type="text" placeholder="' + title + '" />');
- 
-                    // On every keypress in this input
-                    $(
-                        'input',
-                        $('.filters th').eq($(api.column(colIdx).header()).index())
-                    )
-                        .off('keyup change')
-                        .on('change', function (e) {
-                            // Get the search value
-                            $(this).attr('title', $(this).val());
-                            var regexr = '({search})'; //$(this).parents('th').find('select').val();
- 
-                            var cursorPosition = this.selectionStart;
-                            // Search the column for that value
-                            api
-                                .column(colIdx)
-                                .search(
-                                    this.value != ''
-                                        ? regexr.replace('{search}', '(((' + this.value + ')))')
-                                        : '',
-                                    this.value != '',
-                                    this.value == ''
-                                )
-                                .draw();
-                        })
-                        .on('keyup', function (e) {
-                            e.stopPropagation();
- 
-                            $(this).trigger('change');
-                            $(this)
-                                .focus()[0]
-                                .setSelectionRange(cursorPosition, cursorPosition);
-                        });
-                });
-        },
-    });
-});
+            myTable.columns().every(function() {
+                var column = this;
+                var columnIndex = column.index();
 
-</script>
+                var input = $('<input type="text" placeholder="Search..."/>')
+                    .appendTo($(column.header()))
+                    .on('keyup change', function() {
+                        column.search(this.value).draw();
+                        myTable.buttons().enable();
+
+                    });
+            });
+        });
+    </script>
 
 
 
-@endsection
+    @endsection

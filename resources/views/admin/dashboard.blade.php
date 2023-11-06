@@ -69,6 +69,7 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Designation</th>
+                    <th>Email</th>
                     <th>Email Response 1</th>
                     <th>Email Response 2</th>
                     <th>Rating</th>
@@ -77,7 +78,6 @@
                     <th>Employee Count</th>
                     <th>Action<th>
 
-                    <!-- Add more columns as needed -->
                 </tr>
             </thead>
             <tbody>
@@ -111,7 +111,7 @@
                     <td>
                         <a href="{{ route('admin.edit', ['id' => $item->id]) }}" class="btn btn-primary">Edit</a>
                         <a href="{{ route('admin.delete', ['id' => $item->id]) }}" class="btn btn-danger">Delete</a>
-                    </td> <!-- Add more columns as needed -->
+                    </td> 
                 </tr>
                 @endforeach
             </tbody>
@@ -119,78 +119,108 @@
 
     </div>
 
-
-
-
-
     <script>
         $(document).ready(function() {
-            // Setup - add a text input to each footer cell
+            var myTable; // Declare a variable to store the DataTable object
+
+            myTable = $('#datatable').DataTable({
+                dom: 'lBfrtip',
+                buttons: ['copy', 'csv', 'excel', 'pdf'],
+                columns: [{
+                        data: 'column1'
+                    },
+                    {
+                        data: 'column2'
+                    },
+                    {
+                        data: 'column3'
+                    },
+                    {
+                        data: 'column4'
+                    },
+                    {
+                        data: 'column5'
+                    },
+                    {
+                        data: 'column6'
+                    },
+                    {
+                        data: 'column7'
+                    },
+                    {
+                        data: 'column8'
+                    },
+                    {
+                        data: 'column9'
+                    },
+                    {
+                        data: 'column10'
+                    },
+                    {
+                        data: 'column11'
+                    },
+                    {
+                        data: 'column12'
+                    },
+                    {
+                        data: 'column13'
+                    },
+                    {
+                        data: 'column14'
+                    },
+                    {
+                        data: 'column15'
+                    },
+                    {
+                        data: 'column16'
+                    },
+                    {
+                        data: 'column17'
+                    },
+                    {
+                        data: 'column18'
+                    },
+                    {
+                        data: 'column19'
+                    },
+                    {
+                        data: 'column20'
+                    },
+                    {
+                        data: 'column21'
+                    },
+                    {
+                        data: 'column22'
+                    },
+                    {
+                        data: 'column23'
+                    },
+                    {
+                        data: 'column24'
+                    },
+                    {
+                        data: 'column25'
+                    },
+                    {
+                        data: 'column26'
+                    },
+                ]
+            });
+
+            myTable.buttons().disable();
 
 
-            $('#datatable thead tr')
-                .clone(true)
-                .addClass('filters')
-                .appendTo('#datatable thead');
+            myTable.columns().every(function() {
+                var column = this;
+                var columnIndex = column.index();
 
-            var table = $('#datatable').DataTable({
+                var input = $('<input type="text" placeholder="Search..."/>')
+                    .appendTo($(column.header()))
+                    .on('keyup change', function() {
+                        column.search(this.value).draw();
+                        myTable.buttons().enable();
 
-                dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ],
-
-                orderCellsTop: true,
-                fixedHeader: true,
-                initComplete: function() {
-                    var api = this.api();
-
-                    // For each column
-                    api
-                        .columns()
-                        .eq(0)
-                        .each(function(colIdx) {
-                            // Set the header cell to contain the input element
-                            var cell = $('.filters th').eq(
-                                $(api.column(colIdx).header()).index()
-                            );
-                            var title = $(cell).text();
-                            $(cell).html('<input type="text" placeholder="' + title + '" />');
-
-                            // On every keypress in this input
-                            $(
-                                    'input',
-                                    $('.filters th').eq($(api.column(colIdx).header()).index())
-                                )
-                                .off('keyup change')
-                                .on('change', function(e) {
-                                    // Get the search value
-                                    $(this).attr('title', $(this).val());
-                                    var regexr = '({search})'; //$(this).parents('th').find('select').val();
-
-                                    var cursorPosition = this.selectionStart;
-                                    // Search the column for that value
-                                    api
-                                        .column(colIdx)
-                                        .search(
-                                            this.value != '' ?
-                                            regexr.replace('{search}', '(((' + this.value + ')))') :
-                                            '',
-                                            this.value != '',
-                                            this.value == ''
-                                        )
-                                        .draw();
-                                })
-                                .on('keyup', function(e) {
-                                    e.stopPropagation();
-
-                                    $(this).trigger('change');
-                                    $(this)
-                                        .focus()[0]
-                                        .setSelectionRange(cursorPosition, cursorPosition);
-                                });
-                        });
-                },
+                    });
             });
         });
     </script>
