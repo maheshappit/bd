@@ -4,6 +4,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CsvController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Auth\RegisterController;
+
 Route::get('/', function () {
     return redirect(route('login'));
 });
@@ -22,7 +24,13 @@ Route::group(['middleware'=>'admin'],function(){
 
 });
 
-Auth::routes();
+
+Route::group(['middleware' => ['isVerified']], function () {
+
+  
+
+});
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -33,4 +41,13 @@ Route::any('/user/update', [App\Http\Controllers\HomeController::class, 'update'
 
 // Route::view('/upload', 'upload-form'); // Display the form
 Route::any('upload',[CsvController::class,'upload'])->name('upload');
+
+Auth::routes();
+
+Route::get('verify-otp', [App\Http\Auth\LoginController::class,'getVerifyOTP'])->name('user.getVerifyOTP');
+Route::post('verify-otp', 'Auth\LoginController@postVerifyOTP')->name('user.postVerifyOTP');
+Route::post('resend-otp', 'Auth\LoginController@resndOTP')->name('user.resndOTP');
+Route::post('login-with-otp', 'Auth\LoginController@loginWithOTP')->name('user.loginWithOTP');
+
+
 

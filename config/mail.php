@@ -33,6 +33,7 @@ return [
     |
     */
 
+    'from' => ['address' => '', 'name' => ''],
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
