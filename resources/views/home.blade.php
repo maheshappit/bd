@@ -1,44 +1,39 @@
 @extends('layouts.app')
 
-<head>
-    <style>
-        .hidden-pdf-button {
-            display: none !important;
-        }
-    </style>
-</head>
+@extends('layouts.formupload')
+
 
 @section('content')
+
+
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+   
 
-                <div class="card-body">
-
-                    <form action="{{ route('upload') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="file" accept=".csv" class=" @error('file') is-invalid @enderror">
-                        <button class="btn btn-primary" type="submit">Upload</button>
-                    </form>
-                    @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                    @endif
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @if(session('message'))
+    <!-- @if(session('message'))
     <div class="alert alert-success">
         {{ session('message') }}
     </div>
-    @endif
+    @endif -->
+
+    <!-- @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif -->
+
+        @if(session('success'))
+
+<div class="alert alert-success alert-dismissible">
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+{{ session('success') }}
+</div>
+@endif
+
+
+
+
 
 
 
