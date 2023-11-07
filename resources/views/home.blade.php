@@ -291,69 +291,54 @@
 
 
 
-    <script>
-        $(document).ready(function() {
-            var showChar = 50;
-            $(".more").each(function() {
-                var content = $(this).html();
+<script>
+$(document).ready(function() {
+    var showChar = 50;
+    
+    $('#datatable tbody .more').each(function() {
+        var content = $(this).html();
+        var row = $(this).closest('tr');
+        
+        if (content.length > showChar) {
+            var arr = [];
+            var pos = 0;
+            
+            for (var i = 0; i < content.length / showChar; i++) {
+                arr.push(content.substr(pos, showChar));
+                pos += showChar - 1;
+            }
+            
+            var html = '';
 
-                if (content.length > showChar) {
-                    var arr = [];
-                    var pos = 0;
-                    for (var i = 0; i < content.length / showChar; i++) {
-                        arr.push(content.substr(pos, showChar));
-                        pos += showChar - 1;
-                    }
-                    var html = "";
+            for (var i = 0; i < arr.length; i++) {
+                html += `<div class="text-${i}" style="display: none;">`;
+                html += arr[i];
+                html += ` - <span class="more-link-${i}" style="color: red">more</span> <span class="less-link-${i}" style="color: green; display: none">less</span>`;
+                html += '</div>';
+            }
 
-                    for (var i = 0; i < arr.length; i++) {
-                        html += `<div class="text-${i}" style="display: none;">`;
-                        html += arr[i];
-                        html += `  - <span id="more-${i}" style="color: red">more</span> <span id="less-${i}" style="color: green; display: none">less</span>`;
-                        html += "</div>";
-                    }
+            $(this).html(html);
+            row.find('.text-0').css('display', 'block');
 
-                    $(this).text("");
-                    $(this).append(html);
-                    $(".text-0").css("display", "block");
-
-                    for (var i = 0; i < arr.length - 1; i++) {
-                        (function(index) {
-                            $(`#more-${index}`).on("click", function() {
-                                $(`.text-${index + 1}`).css("display", "block");
-                                $(`#more-${index}`).css("display", "none");
-                                $(`#less-${index}`).css("display", "inline-block");
-                            });
-                        })(i);
-                    }
-                }
-            });
-        });
-
-        $("*").on("click", function() {
-            var arr = $("div");
             for (var i = 0; i < arr.length - 1; i++) {
                 (function(index) {
-                    $(`#more-${index}`).on("click", function() {
-                        $(`.text-${index + 1}`).css("display", "block");
-                        $(`#less-${index}`).css("display", "inline-block");
-                        $(`#more-${index}`).css("display", "none");
+                    row.find(`.more-link-${index}`).on('click', function() {
+                        row.find(`.text-${index + 1}`).css('display', 'block');
+                        row.find(`.more-link-${index}`).css('display', 'none');
+                        row.find(`.less-link-${index}`).css('display', 'inline-block');
                     });
 
-                    $(`#less-${index}`).on("click", function() {
-                        $(`.text-${index + 1}`).css("display", "none");
-                        $(`#less-${index}`).css("display", "none");
-                        $(`#more-${index}`).css("display", "inline-block");
-                        for (var j = index + 1; j < arr.length; j++) {
-                            $(`.text-${j}`).css("display", "none");
-                            $(`#less-${j}`).css("display", "none");
-                            $(`#more-${j}`).css("display", "inline-block");
-                        }
+                    row.find(`.less-link-${index}`).on('click', function() {
+                        row.find(`.text-${index + 1}`).css('display', 'none');
+                        row.find(`.less-link-${index}`).css('display', 'none');
+                        row.find(`.more-link-${index}`).css('display', 'inline-block');
                     });
                 })(i);
             }
-        });
-    </script>
+        }
+    });
+});
+</script>
 
 
 
