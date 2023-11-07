@@ -7,7 +7,7 @@ use App\Http\Requests\UserFrontLoginWithOTPFormRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Controllers\Controller;
 use Froiden\Envato\Traits\AppBoot;
-use App\VerificationCode;
+use App\Models\VerificationCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
@@ -19,6 +19,8 @@ use Carbon\Carbon;
 use App\Mail\LoginOTP;
 use Mail;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
+
 
 
 
@@ -42,7 +44,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin/dashboard';
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -93,18 +95,9 @@ class LoginController extends Controller
             return redirect()->route('login');
         }
 
-        $setting = $this->global;
-        $global = $this->global;
-        $frontTheme = ThemeSetting::whereNull('company_id')->first();
-
-        $headerData = FrontCmsHeader::first();
-
+        
         return view('auth.verify_otp', [
-            'setting' => $setting,
-            'frontTheme' => $frontTheme,
-            'headerData' => $headerData,
-            'global' => $global,
-            'adminTheme' => $this->adminTheme
+            
         ]);
     }
 
@@ -182,10 +175,10 @@ class LoginController extends Controller
         } */
 
         if(auth()->check()) {
-            if(auth()->user()->is_superadmin) {
-                return redirect(route('superadmin.dashboard.index'));
-            }
-            return redirect('admin/dashboard');
+            // if(auth()->user()->is_superadmin) {
+            //     return redirect(route('superadmin.dashboard.index'));
+            // }
+            return redirect('home');
         }
 
         // $setting = $this->global;
@@ -194,13 +187,7 @@ class LoginController extends Controller
 
         // $headerData = FrontCmsHeader::first();
 
-        return view('auth.login', [
-            // 'setting' => $setting,
-            // 'frontTheme' => $frontTheme,
-            // 'headerData' => $headerData,
-            // 'global' => $global,
-            // 'adminTheme' => $this->adminTheme
-        ]);
+        return view('auth.login');
     }
 
     protected function credentials(\Illuminate\Http\Request $request)
@@ -239,7 +226,7 @@ class LoginController extends Controller
         if($user->is_superadmin) {
             return 'super-admin/dashboard';
         }
-        return 'admin/dashboard';
+        return '/home';
     }
 
     public function logout(Request $request)
@@ -249,12 +236,7 @@ class LoginController extends Controller
 
         $request->session()->invalidate();
 
-        if (module_enabled('Subdomain')) {
-            if ($user->is_superadmin) {
-                return $this->loggedOut($request) ?: redirect(route('front.super-admin-login'));
-            }
-            return redirect(route('login'));
-        }
+        
 
         return redirect(route('login'));
     }

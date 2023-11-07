@@ -44,10 +44,10 @@ Route::any('upload',[CsvController::class,'upload'])->name('upload');
 
 Auth::routes();
 
-Route::get('verify-otp', [App\Http\Auth\LoginController::class,'getVerifyOTP'])->name('user.getVerifyOTP');
-Route::post('verify-otp', 'Auth\LoginController@postVerifyOTP')->name('user.postVerifyOTP');
-Route::post('resend-otp', 'Auth\LoginController@resndOTP')->name('user.resndOTP');
-Route::post('login-with-otp', 'Auth\LoginController@loginWithOTP')->name('user.loginWithOTP');
+Route::get('verify-otp', [App\Http\Controllers\Auth\LoginController::class,'getVerifyOTP'])->name('user.getVerifyOTP');
+Route::post('verify-otp', [App\Http\Controllers\Auth\LoginController::class,'postVerifyOTP'])->name('user.postVerifyOTP');
+Route::post('resend-otp', [App\Http\Controllers\Auth\LoginController::class,'resndOTP'])->name('user.resndOTP');
+Route::post('login-with-otp', [App\Http\Controllers\Auth\LoginController::class,'loginWithOTP'])->name('user.loginWithOTP');
 
 
 

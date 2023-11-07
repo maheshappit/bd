@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\BdModel;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 
 class HomeController extends Controller
 {
@@ -25,7 +27,9 @@ class HomeController extends Controller
     public function index()
     {
         $users_data=BdModel::all();
+
         return view('home',compact('users_data'));
+        
     }
 
     public function edit(Request $request){

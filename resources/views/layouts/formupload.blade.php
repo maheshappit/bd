@@ -37,9 +37,13 @@
             font-size: 20px;
             cursor: pointer;
         }
+
+        
+
+
     </style>
 
-    
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -52,27 +56,33 @@
 </div>
 
 <div id="myModal" class="modal">
-    <div class="upload-modal-content">
-        <span class="close">&times;</span>
-        <h2>Upload File</h2>
 
-        <form action="{{ route('upload') }}"  method="POST" enctype="multipart/form-data">
-            @csrf
-            <input type="file" name="file" accept=".csv" class=" @error('file') is-invalid @enderror">
-            <button class="btn btn-primary" type="submit">Upload</button>
-        </form>
-
-
-        <!-- @if(session('success'))
-        <div class="alert alert-success">
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card upload-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    File Upload
+                    <button type="button" class="close" aria-label="Close" onclick="closeCard()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card-body">
+                <form action="{{ route('upload') }}"  method="POST" enctype="multipart/form-data">      
+                    @csrf                  <div class="form-group">
+                            <label for="file">Choose a file:</label>
+                            <input type="file" class="form-control-file @error('file') is-invalid @enderror" accept=".csv" id="file" name="file" >
+                        </div>
+                        <button type="submit" class="btn btn-primary" type="submit">Upload</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        @endif -->
-
-      
-
-
-        
     </div>
+</div>
+
+    
+    
 </div>
 
 
