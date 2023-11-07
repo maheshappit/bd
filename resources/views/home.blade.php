@@ -158,7 +158,7 @@
             var myTable; // Declare a variable to store the DataTable object
 
             myTable = $('#datatable').DataTable({
-                dom: 'lBfrtip',
+                // dom: 'lBfrtip',
                 // 'responsive': true,
 
                 buttons: ['copy', 'csv', 'excel', 'pdf'],
@@ -293,7 +293,7 @@
 
 <script>
 $(document).ready(function() {
-    var showChar = 50;
+    var showChar = 30;
     
     $('#datatable tbody .more').each(function() {
         var content = $(this).html();
