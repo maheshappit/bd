@@ -2,9 +2,9 @@
     <style>
         #topRightButton {
             /* Adjust the right position as needed for spacing from the right */
-            position: fixed;
-            top: 65px;
-            right: 23px;
+            position: absolute;
+            top: 74px;
+            right: 70px;
         }
 
         .modal {
@@ -71,7 +71,7 @@
                 <form action="{{ route('upload') }}"  method="POST" enctype="multipart/form-data">      
                     @csrf                  <div class="form-group">
                             <label for="file">Choose a file:</label>
-                            <input type="file" class="form-control-file @error('file') is-invalid @enderror" accept=".csv" id="file" name="file" >
+                            <input type="file" class="form-control-file @error('file') is-invalid @enderror" accept=".csv,.xlsx" id="file" name="file" >
                         </div>
                         <button type="submit" class="btn btn-primary" type="submit">Upload</button>
                     </form>

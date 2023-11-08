@@ -69,7 +69,7 @@ class HomeController extends Controller
             'employee_count'=>$request->employee_count,
         ]);
 
-        return redirect()->route('home')->with('message', 'User Updated Successfully.');
+        return redirect()->route('home')->with('success', 'User Updated Successfully.');
 
     }
 }

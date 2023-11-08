@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\BdModel;
+use Validator;
+use League\Csv\Reader;
+
+
 class AdminController extends Controller
 {
     //todo: admin login form
@@ -66,7 +70,7 @@ class AdminController extends Controller
             'employee_count'=>$request->employee_count,
         ]);
 
-        return redirect()->route('admin.dashboard')->with('message', 'User Updated Successfully.');
+        return redirect()->route('admin.dashboard')->with('success', 'User Updated Successfully.');
 
     }
 
@@ -75,9 +79,105 @@ class AdminController extends Controller
 
         $user=BdModel::find($request->id);
         $user->delete();
-        return redirect()->route('dashboard')->with('message', 'User Deleted Successfully.');
+        return redirect()->route('admin.dashboard')->with('success', 'User Deleted Successfully.');
 
 
+    }
+
+    public function upload(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|mimes:csv,txt|max:2048', 
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('home')
+                        ->withErrors($validator)
+                        ->withInput();
+        }else{
+
+            $file = $request->file('file');
+        $path = $file->getRealPath();
+    
+        $csv = Reader::createFromPath($path, 'r');
+        $csv->setHeaderOffset(0);
+    
+        foreach ($csv as $row) {
+            // dd($row);
+
+
+            $email = $row['Email']; // Assuming the email column in the CSV is named 'email'
+
+        // Try to find a record with the same email in the database
+        $existingRecord = BdModel::where('email', $email)->first();
+
+        if ($existingRecord) {
+            // If a record with the same email exists, update it
+            $existingRecord->update([
+                'create_date'=>$row['Create Date'],
+                'email_sent_date'=>$row['Email sent Date'],
+                'company_source'=>$row['Company Source'],
+                'contact_source'=>$row['Contact Source'],
+                'database_creator_name'=>$row['Database Creator Name'],
+                'technology'=>$row['Technology'],
+                'client_speciality'=>$row['Client Speciality'],
+                'client_name'=>$row['Client Name'],
+                'street'=>$row['Street'],
+                'city'=>$row['City'],
+                'state'=>$row['State'],
+                'zip_code'=>$row['Zip Code'],
+                'country'=>$row['Country'],
+                'website'=>$row['Website'],
+                'first_name'=>$row['First Name'],
+                'last_name'=>$row['Last Name'],
+                'designation'=>$row['Designation'],
+                'email'=>$row['Email'],
+                'email_response_1'=>$row['Response 1'],
+                'email_response_2'=>$row['Response 2'],
+                'rating'=>$row['Rating'],
+                'followup'=>$row['FollowUp'],
+                'linkedin_link'=>$row['LinkedIn Link'],
+                'employee_count'=>$row['Employee Count']
+            ]);
+        } else {
+            // If no record with the same email exists, insert a new record
+            BdModel::create([
+                'create_date'=>$row['Create Date'],
+                'email_sent_date'=>$row['Email sent Date'],
+                'company_source'=>$row['Company Source'],
+                'contact_source'=>$row['Contact Source'],
+                'database_creator_name'=>$row['Database Creator Name'],
+                'technology'=>$row['Technology'],
+                'client_speciality'=>$row['Client Speciality'],
+                'client_name'=>$row['Client Name'],
+                'street'=>$row['Street'],
+                'city'=>$row['City'],
+                'state'=>$row['State'],
+                'zip_code'=>$row['Zip Code'],
+                'country'=>$row['Country'],
+                'website'=>$row['Website'],
+                'first_name'=>$row['First Name'],
+                'last_name'=>$row['Last Name'],
+                'designation'=>$row['Designation'],
+                'email'=>$row['Email'],
+                'email_response_1'=>$row['Response 1'],
+                'email_response_2'=>$row['Response 2'],
+                'rating'=>$row['Rating'],
+                'followup'=>$row['FollowUp'],
+                'linkedin_link'=>$row['LinkedIn Link'],
+                'employee_count'=>$row['Employee Count']
+
+
+            ]);
+        }
+        }
+    
+        return redirect()->route('admin.dashboard')->with('success', 'CSV file uploaded and processed successfully.');
+
+        }
+    
+        
     }
 
 

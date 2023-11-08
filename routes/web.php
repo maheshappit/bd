@@ -15,11 +15,14 @@ Route::post('login-functionality',[AdminController::class,'login_functionality']
 
 
 Route::group(['middleware'=>'admin'],function(){
-    Route::get('logout',[AdminController::class,'logout'])->name('admin.logout');
+    Route::get('admin/logout',[AdminController::class,'logout'])->name('admin.logout');
     Route::get('admin/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
-    Route::get('edit',[AdminController::class,'edit'])->name('admin.edit');
-    Route::post('update/{id}',[AdminController::class,'update'])->name('admin.update');
-    Route::get('delete',[AdminController::class,'delete'])->name('admin.delete');
+    Route::get('admin/edit',[AdminController::class,'edit'])->name('admin.edit');
+    Route::post('admin/update/{id}',[AdminController::class,'update'])->name('admin.update');
+    Route::get('adnin/delete',[AdminController::class,'delete'])->name('admin.delete');
+
+    Route::any('admin/upload',[AdminController::class,'upload'])->name('admin.upload');
+
 
 
 });
@@ -51,24 +54,24 @@ Route::post('login-with-otp', [App\Http\Controllers\Auth\LoginController::class,
 
 
 
-Route::get('/clear-cache', function () {
+Route::get('/clear', function () {
 
-    $exitCode = Artisan::call('optimize:clear');
-   
-     $exitCode = Artisan::call('config:clear');
-   
-   
-   
-     $exitCode = Artisan::call('cache:clear');
-   
-   
-   
-     $exitCode = Artisan::call('config:cache');
-   
-   
-   
-     return 'DONE'; //Return anything
-   
-   
-   
-   });
+ $exitCode = Artisan::call('optimize:clear');
+
+  $exitCode = Artisan::call('config:clear');
+
+
+
+  $exitCode = Artisan::call('cache:clear');
+
+
+
+  $exitCode = Artisan::call('config:cache');
+
+
+
+  return 'DONE'; //Return anything
+
+
+
+});

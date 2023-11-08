@@ -18,35 +18,25 @@
         /* or whatever height you need to make them all consistent */
     }
 
-    .card{
-    width: fit-content !important;
-    top: 80px;
-    
-}
+    .card {
+        width: fit-content !important;
+        top: 80px;
 
-.alert{
-    width: fit-content;
-}
+    }
+
+    .alert {
+        width: fit-content;
+    }
 </style>
 
 <div class="container">
 
 
-    <!-- @if(session('message'))
-    <div class="alert alert-success">
-        {{ session('message') }}
-    </div>
-    @endif -->
-
-    <!-- @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-        @endif -->
+   
 
     @if(session('success'))
 
-    
+
 
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -55,10 +45,6 @@
         {{ session('success') }}
     </div>
     @endif
-
-
-
-
 
 
 
@@ -118,7 +104,7 @@
                             <td>{{ $item->technology }}</td>
                             <td>{{ $item->client_speciality }}</td>
                             <td>{{ $item->client_name }}</td>
-                            <td>{{ $item->street }}</td>
+                            <td class="more">{{ $item->street }}</td>
                             <td>{{ $item->city }}</td>
                             <td>{{ $item->zip_code }}</td>
                             <td>{{ $item->website }}</td>
@@ -150,7 +136,7 @@
 
 
 
-
+</div>
 
 
     <script>
@@ -271,7 +257,7 @@
 
                 // Check if the current header matches one of the specific headers
                 if (specificHeaders.includes(columnHeader)) {
-                    var input = $('<input type="text" placeholder="Search..."/>')
+                    var input = $('<input style="width:100px;" type="text" placeholder="Search..."/>')
                         .appendTo($(column.header()))
                         .on('keyup change', function() {
                             column.search(this.value).draw();
@@ -291,54 +277,54 @@
 
 
 
-<script>
-$(document).ready(function() {
-    var showChar = 30;
-    
-    $('#datatable tbody .more').each(function() {
-        var content = $(this).html();
-        var row = $(this).closest('tr');
-        
-        if (content.length > showChar) {
-            var arr = [];
-            var pos = 0;
-            
-            for (var i = 0; i < content.length / showChar; i++) {
-                arr.push(content.substr(pos, showChar));
-                pos += showChar - 1;
-            }
-            
-            var html = '';
+    <script>
+        $(document).ready(function() {
+            var showChar = 10;
 
-            for (var i = 0; i < arr.length; i++) {
-                html += `<div class="text-${i}" style="display: none;">`;
-                html += arr[i];
-                html += ` - <span class="more-link-${i}" style="color: red">more</span> <span class="less-link-${i}" style="color: green; display: none">less</span>`;
-                html += '</div>';
-            }
+            $('#datatable tbody .more').each(function() {
+                var content = $(this).html();
+                var row = $(this).closest('tr');
 
-            $(this).html(html);
-            row.find('.text-0').css('display', 'block');
+                if (content.length > showChar) {
+                    var arr = [];
+                    var pos = 0;
 
-            for (var i = 0; i < arr.length - 1; i++) {
-                (function(index) {
-                    row.find(`.more-link-${index}`).on('click', function() {
-                        row.find(`.text-${index + 1}`).css('display', 'block');
-                        row.find(`.more-link-${index}`).css('display', 'none');
-                        row.find(`.less-link-${index}`).css('display', 'inline-block');
-                    });
+                    for (var i = 0; i < content.length / showChar; i++) {
+                        arr.push(content.substr(pos, showChar));
+                        pos += showChar - 1;
+                    }
 
-                    row.find(`.less-link-${index}`).on('click', function() {
-                        row.find(`.text-${index + 1}`).css('display', 'none');
-                        row.find(`.less-link-${index}`).css('display', 'none');
-                        row.find(`.more-link-${index}`).css('display', 'inline-block');
-                    });
-                })(i);
-            }
-        }
-    });
-});
-</script>
+                    var html = '';
+
+                    for (var i = 0; i < arr.length; i++) {
+                        html += `<div class="text-${i}" style="display: none;">`;
+                        html += arr[i];
+                        html += ` - <span class="more-link-${i}" style="color: blue">more</span> <span class="less-link-${i}" style="color: green; display: none">less</span>`;
+                        html += '</div>';
+                    }
+
+                    $(this).html(html);
+                    row.find('.text-0').css('display', 'block');
+
+                    for (var i = 0; i < arr.length - 1; i++) {
+                        (function(index) {
+                            row.find(`.more-link-${index}`).on('click', function() {
+                                row.find(`.text-${index + 1}`).css('display', 'block');
+                                row.find(`.more-link-${index}`).css('display', 'none');
+                                row.find(`.less-link-${index}`).css('display', 'inline-block');
+                            });
+
+                            row.find(`.less-link-${index}`).on('click', function() {
+                                row.find(`.text-${index + 1}`).css('display', 'none');
+                                row.find(`.less-link-${index}`).css('display', 'none');
+                                row.find(`.more-link-${index}`).css('display', 'inline-block');
+                            });
+                        })(i);
+                    }
+                }
+            });
+        });
+    </script>
 
 
 

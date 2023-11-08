@@ -8,6 +8,8 @@ use App\Models\BdModel;
 
 use League\Csv\Reader;
 
+use Illuminate\Support\Facades\Config;
+
 
 
 
@@ -18,7 +20,7 @@ class CsvController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'file' => 'required|mimes:csv,txt|max:2048', 
+            // 'file' => 'required|mimes:csv,txt|max:2048', 
         ]);
 
         if ($validator->fails()) {
@@ -109,5 +111,15 @@ class CsvController extends Controller
     
         
     }
+
+
+//     public function upload(Request $request)
+// {
+//     $file = $request->file('file');
+//     $path = Config::get('custom.csv_file_path');
+
+//     // Rest of your file handling logic
+// }
+
     
 }
