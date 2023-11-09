@@ -52,8 +52,8 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => null,
+            'charset' => 'utf8mb4',//****make sure these configs are set
+            'collation' => 'utf8mb4_unicode_ci',//****make sure these configs are set
             'prefix' => '',
             'prefix_indexes' => true,
             'strict' => true,

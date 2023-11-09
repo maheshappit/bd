@@ -29,117 +29,8 @@
     }
 </style>
 
-<div class="container">
-
-
-   
-
-    @if(session('success'))
-
-
-
-    <div class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        {{ session('success') }}
-    </div>
-    @endif
-
-
-
-
-    <div class="container">
-
-        <div class="card">
-            <div class="card-body">
-
-                <h5 class="card-title">BD Users Data</h5>
-
-                <table id="datatable" class="table table-sttriped-borderd">
-                    <thead>
-                        <tr>
-                            <th>S.No</th>
-                            <th>Industry</th>
-                            <th>State</th>
-                            <th>Country</th>
-                            <th>Client Name</th>
-
-                            <th>Contact Source</th>
-                            <th>Database Creator Name</th>
-                            <th>Technology</th>
-                            <th>Client Speciality</th>
-                            <th>Street</th>
-                            <th>City</th>
-                            <th>Zip Code</th>
-                            <th>Website</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Designation</th>
-                            <th>Email</th>
-                            <th>Email Response 1</th>
-                            <th>Email Response 2</th>
-                            <th>Rating</th>
-                            <th>FollowUp</th>
-                            <th>LinkedIn Link</th>
-                            <th>Employee Count</th>
-                            <th>Action</th>
-
-                            <!-- Add more columns as needed -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                        $serial = 1; // Initialize a serial number variable
-                        @endphp
-                        @foreach ($users_data as $item)
-                        <tr>
-                            <td>{{$serial++}}</td>
-
-                            <td>{{ $item->technology }}</td>
-                            <td>{{ $item->state }}</td>
-                            <td>{{ $item->country }}</td>
-                            <td>{{ $item->client_name }}</td>
-                            <td>{{ $item->database_creator_name }}</td>
-                            <td>{{ $item->technology }}</td>
-                            <td>{{ $item->client_speciality }}</td>
-                            <td>{{ $item->client_name }}</td>
-                            <td class="more">{{ $item->street }}</td>
-                            <td>{{ $item->city }}</td>
-                            <td>{{ $item->zip_code }}</td>
-                            <td>{{ $item->website }}</td>
-                            <td>{{ $item->first_name }}</td>
-                            <td>{{ $item->last_name }}</td>
-                            <td>{{ $item->designation }}</td>
-                            <td>{{ $item->email }}</td>
-                            <td>{{ $item->email_response_1 }}</td>
-                            <td>{{ $item->email_response_2 }}</td>
-                            <td>{{ $item->rating }}</td>
-                            <td>{{ $item->followup }}</td>
-
-                            <td class="more">{{$item->linkedin_link}}</td>
-                            <td>{{ $item->employee_count }}</td>
-                            <td>
-                                <a href="{{ route('user.edit', ['id' => $item->id]) }}" class="btn btn-primary">Edit</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-
-
-            </div>
-        </div>
-
-
-    </div>
-
-
-
-</div>
-
-
-    <script>
+<head>
+<script>
         $(document).ready(function() {
             var myTable; // Declare a variable to store the DataTable object
 
@@ -325,7 +216,116 @@
             });
         });
     </script>
+</head>
 
+<div class="container">
+
+
+   
+
+    @if(session('success'))
+
+
+
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ session('success') }}
+    </div>
+    @endif
+
+
+
+
+    <div class="container">
+
+        <div class="card">
+            <div class="card-body">
+
+                <h5 class="card-title">BD Users Data</h5>
+
+                <table id="datatable" class="table table-sttriped-borderd">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Industry</th>
+                            <th>State</th>
+                            <th>Country</th>
+                            <th>Client Name</th>
+
+                            <th>Contact Source</th>
+                            <th>Database Creator Name</th>
+                            <th>Technology</th>
+                            <th>Client Speciality</th>
+                            <th>Street</th>
+                            <th>City</th>
+                            <th>Zip Code</th>
+                            <th>Website</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Designation</th>
+                            <th>Email</th>
+                            <th>Email Response 1</th>
+                            <th>Email Response 2</th>
+                            <th>Rating</th>
+                            <th>FollowUp</th>
+                            <th>LinkedIn Link</th>
+                            <th>Employee Count</th>
+                            <th>Action</th>
+
+                            <!-- Add more columns as needed -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                        $serial = 1; // Initialize a serial number variable
+                        @endphp
+                        @foreach ($users_data as $item)
+                        <tr>
+                            <td>{{$serial++}}</td>
+
+                            <td>{{ $item->technology }}</td>
+                            <td>{{ $item->state }}</td>
+                            <td>{{ $item->country }}</td>
+                            <td>{{ $item->client_name }}</td>
+                            <td>{{ $item->database_creator_name }}</td>
+                            <td>{{ $item->technology }}</td>
+                            <td>{{ $item->client_speciality }}</td>
+                            <td>{{ $item->client_name }}</td>
+                            <td class="more">{{ $item->street }}</td>
+                            <td>{{ $item->city }}</td>
+                            <td>{{ $item->zip_code }}</td>
+                            <td>{{ $item->website }}</td>
+                            <td>{{ $item->first_name }}</td>
+                            <td>{{ $item->last_name }}</td>
+                            <td>{{ $item->designation }}</td>
+                            <td>{{ $item->email }}</td>
+                            <td>{{ $item->email_response_1 }}</td>
+                            <td>{{ $item->email_response_2 }}</td>
+                            <td>{{ $item->rating }}</td>
+                            <td>{{ $item->followup }}</td>
+
+                            <td class="more">{{$item->linkedin_link}}</td>
+                            <td>{{ $item->employee_count }}</td>
+                            <td>
+                                <a href="{{ route('user.edit', ['id' => $item->id]) }}" class="btn btn-primary">Edit</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+</div>
 
 
 

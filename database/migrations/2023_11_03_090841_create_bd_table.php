@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('bd', function (Blueprint $table) {
             $table->id();
-            $table->string('create_date', 255)->nullable();
+            $table->string('create_date', 255);
             $table->string('email_sent_date', 255)->nullable();
             $table->string('company_source', 255)->nullable();
             $table->string('contact_source', 255)->nullable();
             $table->string('database_creator_name', 255)->nullable();
             $table->string('technology', 255)->nullable();
-            $table->string('client_speciality', 255)->nullable();
-            $table->string('client_name', 255)->nullable();
+            $table->text('client_speciality', 1000)->nullable();
+            $table->text('client_name', 1000)->nullable();
             $table->string('street', 255)->nullable();
             $table->string('city', 255)->nullable();
             $table->string('state', 255)->nullable();
